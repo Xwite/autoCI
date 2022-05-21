@@ -1,0 +1,53 @@
+name: update cocomanhua keys
+
+on:
+  schedule:
+    - cron: '0 0/8 * * *'
+  workflow_dispatch:
+  push:
+
+jobs:
+  updateKeys:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cache/pip
+            babel_asttools.js
+          key: ${{ runner.os }}-autoCI-${{ hashFiles('**/README.md') }}
+          restore-keys: |
+            ${{ runner.os }}-autoCI-
+
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          ref: main
+
+      - name: install requirements
+        run: |
+          # 安装undetected-chromedriver
+          pip install undetected-chromedriver
+          # clone decodeObfuscator
+          git clone https://github.com/Xwite/decodeObfuscator --depth 1
+
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          ref: autoBuild
+          path: autoBuild
+
+      - name: extra keys
+        run: |
+          bash $GITHUB_WORKSPACE/coco/coco.sh
+          mv coco_keys.json ./autoBuild
+
+      - name: push changes
+        uses: stefanzweifel/git-auto-commit-action@v4.14.1
+        with:
+          commit_message: 'update cocomanhua keys'
+          branch: autoBuild
+          repository: ./autoBuild
+          file_pattern: coco_keys.json
+          skip_checkout: false
+          create_branch: true
