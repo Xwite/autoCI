@@ -14,20 +14,21 @@ jobs:
         with:
           fetch-depth: 0
           ref: main
-      - uses: actions/cache@v3
-        with:
-          path: |
-            ~/.cache/pip
-            babel_asttools.js
-          key: ${{ runner.os }}-autoCI-${{ hashFiles('**requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-autoCI-${{ hashFiles('**requirements.txt') }}
-
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
           ref: autoBuild
           path: autoBuild
+
+      - uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cache/pip
+            ~/.npm
+            babel_asttools.js
+          key: ${{ runner.os }}-autoCI-${{ hashFiles('**/requirements.txt') }}-${{ hashFiles('**/package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-autoCI-${{ hashFiles('**/requirements.txt') }}-${{ hashFiles('**/package.json') }}
 
       - name: extra keys
         run: |

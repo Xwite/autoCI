@@ -4,6 +4,7 @@ url="https://www.cocomanga.com/js/custom.js"
 savePath="coco.js"
 ua_string="user-agent:Mozilla/5.0 (Linux; Android 11;Pixel XL) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/100.0.4896.79 Mobile Safari/537.36"
 
+# 启用选项
 use_cloudscraper=true
 use_selenium=true
 use_puppeteer=true

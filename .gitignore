@@ -1,4 +1,2 @@
 decodeObfuscator
-/*.js
-*.json
-*.bak
+node_modules
