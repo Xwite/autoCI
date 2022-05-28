@@ -24,13 +24,6 @@ jobs:
           fetch-depth: 0
           ref: main
 
-      - name: install requirements
-        run: |
-          # 安装undetected-chromedriver
-          pip install undetected-chromedriver
-          # clone decodeObfuscator
-          git clone https://github.com/Xwite/decodeObfuscator --depth 1
-
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
@@ -40,6 +33,7 @@ jobs:
       - name: extra keys
         run: |
           bash $GITHUB_WORKSPACE/coco/coco.sh
+          # mv result to autoBuild branch
           mv coco_keys.json ./autoBuild
 
       - name: push changes
