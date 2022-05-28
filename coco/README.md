@@ -2,7 +2,7 @@
 
 ## 使用
 ```
-bash ~/autoCI/coco/coco.sh
+source ~/autoCI/coco/coco.sh
 ```
 ## 相关项目
 * https://github.com/Tsaiboss/decodeObfuscator

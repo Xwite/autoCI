@@ -5,20 +5,19 @@ savePath="coco.js"
 ua_string="user-agent:Mozilla/5.0 (Linux; Android 11;Pixel XL) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/100.0.4896.79 Mobile Safari/537.36"
 
 # 启用选项
+# 对应依赖 package.json requirements.txtq
 use_cloudscraper=true
 use_selenium=true
 use_puppeteer=true
 
-# 解密工具
-[ -e decodeObfuscator ] || git clone https://github.com/Xwite/decodeObfuscator --depth 1
-
 function extraKeys() {
+    [ -e decodeObfuscator ] || git clone https://github.com/Xwite/decodeObfuscator --depth 1
     node ./decodeObfuscator/main.js $savePath common cocomanhua
 }
 
 function checkDown() {
    if [ -e $savePath ]; then
-       [ -z $(cat $savePath | grep "<html") ] && return 0
+       [ -z "$(cat $savePath | grep "<html")" ] && return 0
    else
        return 1
    fi
@@ -26,7 +25,6 @@ function checkDown() {
 
 function cloudscraper() {
     echo -e "\033[42;30m INFO \033[40;32m start cloudscraper"
-    pip install cloudscraper
     python3 ./lib/cloudscraper_fetch.py $url $savePath
     if checkDown;then
         extraKeys
@@ -39,7 +37,6 @@ function cloudscraper() {
 
 function selenium() {
     echo -e "\033[42;30m INFO \033[40;32m start selenium"
-    pip install undetected-chromedriver
     python3 ./lib/selenium_fetch.py $url $savePath
     if checkDown;then
         extraKeys
@@ -52,7 +49,6 @@ function selenium() {
 
 function puppeteer() {
     echo -e "\033[42;30m INFO \033[40;32m start puppeteer"
-    npm install puppeteer puppeteer-extra puppeteer-extra-plugin-stealth
     node ./lib/puppeteer_fetch.js $url $savePath
     if checkDown;then
         extraKeys

@@ -1,0 +1,55 @@
+name: cloudflare bypass test
+
+on:
+  push:
+    paths:
+      - '**lib/**'
+      - '**requirements.txt'
+      - '**package.json'
+      - '!**.md'
+
+jobs:
+  build-and-cache:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          ref: main
+
+      - uses: actions/cache@v3
+        with:
+          path: |
+            ~/.local/lib/python3.8/site-packages
+            ./node_modules
+          key: ${{ runner.os }}-autoCI-${{ hashFiles('**/requirements.txt') }}-${{ hashFiles('**/package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-autoCI-${{ hashFiles('**/requirements.txt') }}-${{ hashFiles('**/package.json') }}
+
+      - name: install dependences
+        run: |
+          npm install
+          pip install -r requirements.txt
+
+      - name: check cacheed packages and chromium size
+        run: |
+          du -h -d 0 ./node_modules
+          du -h -d 0 ./node_modules/puppeteer/.local-chromium
+          du -h -d 0 ~/.local/lib/python3.8/site-packages
+
+      - name: puppeteer
+        run: |
+          source $GITHUB_WORKSPACE/coco/coco.sh
+          puppeteer
+
+      - name: selenium
+        run: |
+          source $GITHUB_WORKSPACE/coco/coco.sh
+          selenium
+
+      - name: cloudscraper
+        continue-on-error: true
+        run: |
+          source $GITHUB_WORKSPACE/coco/coco.sh
+          cloudscraper
+

@@ -4,7 +4,6 @@ on:
   schedule:
     - cron: '0 0/8 * * *'
   workflow_dispatch:
-  push:
 
 jobs:
   updateKeys:
@@ -23,9 +22,8 @@ jobs:
       - uses: actions/cache@v3
         with:
           path: |
-            ~/.cache/pip
-            ~/.npm
-            **/.local-chromium
+            ~/.local/lib/python3.8/site-packages
+            ./node_modules
           key: ${{ runner.os }}-autoCI-${{ hashFiles('**/requirements.txt') }}-${{ hashFiles('**/package.json') }}
           restore-keys: |
             ${{ runner.os }}-autoCI-${{ hashFiles('**/requirements.txt') }}-${{ hashFiles('**/package.json') }}
