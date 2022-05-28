@@ -45,3 +45,11 @@ jobs:
           file_pattern: coco_keys.json
           skip_checkout: false
           create_branch: true
+
+      - name: Delete workflow runs
+        uses: Mattraks/delete-workflow-runs@v2
+        with:
+          token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          retain_days: 2
+          keep_minimum_runs: 6
