@@ -10,19 +10,18 @@ jobs:
   updateKeys:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          ref: main
       - uses: actions/cache@v3
         with:
           path: |
             ~/.cache/pip
             babel_asttools.js
-          key: ${{ runner.os }}-autoCI-${{ hashFiles('**/README.md') }}
+          key: ${{ runner.os }}-autoCI-${{ hashFiles('**requirements.txt') }}
           restore-keys: |
-            ${{ runner.os }}-autoCI-
-
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-          ref: main
+            ${{ runner.os }}-autoCI-${{ hashFiles('**requirements.txt') }}
 
       - uses: actions/checkout@v2
         with:
