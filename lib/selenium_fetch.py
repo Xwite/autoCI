@@ -24,7 +24,6 @@ def saveContent(url, savePath):
     options.add_argument('--headless')
     driver = uc.Chrome(options=options, version_main=version_main)
     
-    print(f"start download {url}...")
     try:
         driver.get(url)
         sleep(10)

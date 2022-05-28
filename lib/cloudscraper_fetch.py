@@ -5,7 +5,6 @@ import cloudscraper, sys
 def saveContent(url, savePath):
     scraper = cloudscraper.create_scraper()
 
-    print(f"start download {url}...")
     content = scraper.get(url).text
     print(content[0:200])
     
