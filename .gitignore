@@ -1,3 +1,4 @@
 decodeObfuscator
-*.js
+/*.js
 *.json
+*.bak

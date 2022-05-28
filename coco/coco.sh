@@ -4,8 +4,9 @@ url="https://www.cocomanga.com/js/custom.js"
 savePath="coco.js"
 ua_string="user-agent:Mozilla/5.0 (Linux; Android 11;Pixel XL) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/100.0.4896.79 Mobile Safari/537.36"
 
+use_cloudscraper=true
 use_selenium=true
-use_cloudscraper=false
+use_puppeteer=true
 
 # 解密工具
 [ -e decodeObfuscator ] || git clone https://github.com/Xwite/decodeObfuscator --depth 1
@@ -29,7 +30,7 @@ function cloudscraper() {
         extraKeys
         return 0
     else
-       echo -e "\033[41;30m ERROR \033[40;31m fetch content error"
+       echo -e "\033[41;30m ERROR \033[40;31m cloudscraper fetch content error"
        return 1
     fi
 }
@@ -41,7 +42,19 @@ function selenium() {
         extraKeys
         return 0
     else
-       echo -e "\033[41;30m ERROR \033[40;31m fetch content error"
+       echo -e "\033[41;30m ERROR \033[40;31m selenium fetch content error"
+       return 1
+    fi
+}
+
+function puppeteer() {
+    npm install puppeteer puppeteer-extra puppeteer-extra-plugin-stealth
+    node ./lib/puppeteer_fetch.js $url $savePath
+    if checkDown;then
+        extraKeys
+        return 0
+    else
+       echo -e "\033[41;30m ERROR \033[40;31m puppeteer fetch content error"
        return 1
     fi
 }
@@ -58,6 +71,7 @@ fi
 if checkDown;then
     extraKeys
 else
-    $use_selenium && selenium ||
-    $use_cloudscraper && cloudscraper
+    $use_cloudscraper && cloudscraper && exit
+    $use_selenium && selenium && exit
+    $use_puppeteer && puppeteer && exit
 fi
