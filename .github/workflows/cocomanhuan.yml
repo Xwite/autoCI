@@ -25,7 +25,7 @@ jobs:
           path: |
             ~/.cache/pip
             ~/.npm
-            babel_asttools.js
+            **/.local-chromium
           key: ${{ runner.os }}-autoCI-${{ hashFiles('**/requirements.txt') }}-${{ hashFiles('**/package.json') }}
           restore-keys: |
             ${{ runner.os }}-autoCI-${{ hashFiles('**/requirements.txt') }}-${{ hashFiles('**/package.json') }}
