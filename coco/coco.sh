@@ -25,6 +25,7 @@ function checkDown() {
 }
 
 function cloudscraper() {
+    echo -e "\033[42;30m INFO \033[40;32m start cloudscraper"
     pip install cloudscraper
     python3 ./lib/cloudscraper_fetch.py $url $savePath
     if checkDown;then
@@ -37,6 +38,7 @@ function cloudscraper() {
 }
 
 function selenium() {
+    echo -e "\033[42;30m INFO \033[40;32m start selenium"
     pip install undetected-chromedriver
     python3 ./lib/selenium_fetch.py $url $savePath
     if checkDown;then
@@ -49,6 +51,7 @@ function selenium() {
 }
 
 function puppeteer() {
+    echo -e "\033[42;30m INFO \033[40;32m start puppeteer"
     npm install puppeteer puppeteer-extra puppeteer-extra-plugin-stealth
     node ./lib/puppeteer_fetch.js $url $savePath
     if checkDown;then
@@ -60,19 +63,21 @@ function puppeteer() {
     fi
 }
 
-echo -e "\033[42;30m INFO \033[40;32m fetch $url"
-statusCode=$(curl -s -I -H "$ua_string" -w %{http_code} "$url" -o /dev/null)
-#statusCode=504
-if [ $statusCode == "200" ];then
-    curl -s -H "$ua_string" "$url" -o "$savePath"
-else
-    echo -e "\033[42;30m INFO \033[40;32m http code is $statusCode try bypass tool"
-fi
+function main() {
+    echo -e "\033[42;30m INFO \033[40;32m fetch $url"
+    statusCode=$(curl -s -I -H "$ua_string" -w %{http_code} "$url" -o /dev/null)
+    #statusCode=504
+    if [ $statusCode == "200" ];then
+        curl -s -H "$ua_string" "$url" -o "$savePath"
+    else
+        echo -e "\033[42;30m INFO \033[40;32m http code is $statusCode try bypass tool"
+    fi
 
-if checkDown;then
-    extraKeys
-else
-    $use_cloudscraper && cloudscraper && exit
-    $use_selenium && selenium && exit
-    $use_puppeteer && puppeteer && exit
-fi
+    if checkDown;then
+        extraKeys
+    else
+        $use_cloudscraper && cloudscraper && exit
+        $use_puppeteer && puppeteer && exit
+        $use_selenium && selenium && exit
+    fi
+}
