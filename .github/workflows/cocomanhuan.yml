@@ -32,8 +32,8 @@ jobs:
         run: |
           source $GITHUB_WORKSPACE/coco/coco.sh
           main
-          # mv result to autoBuild branch
-          mv coco_keys.json ./autoBuild
+      - name: move keys to ./autoBuild
+        run: mv coco_keys.json ./autoBuild
 
       - name: push changes
         uses: stefanzweifel/git-auto-commit-action@v4.14.1
