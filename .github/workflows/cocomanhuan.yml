@@ -28,6 +28,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-autoCI-${{ hashFiles('**/requirements.txt') }}-${{ hashFiles('**/package.json') }}
 
+      - name: install Dependences
+        run: |
+          npm install
+          # pip install -r requirements.txt
       - name: extra keys
         run: |
           source $GITHUB_WORKSPACE/coco/coco.sh

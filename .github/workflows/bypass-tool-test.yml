@@ -31,12 +31,6 @@ jobs:
           npm install
           pip install -r requirements.txt
 
-      - name: check cacheed packages and chromium size
-        run: |
-          du -h -d 0 ./node_modules
-          du -h -d 0 ./node_modules/puppeteer/.local-chromium
-          du -h -d 0 ~/.local/lib/python3.8/site-packages
-
       - name: puppeteer
         run: |
           source $GITHUB_WORKSPACE/coco/coco.sh

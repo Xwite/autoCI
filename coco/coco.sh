@@ -5,10 +5,13 @@ savePath="coco.js"
 ua_string="user-agent:Mozilla/5.0 (Linux; Android 11;Pixel XL) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/100.0.4896.79 Mobile Safari/537.36"
 
 # 启用选项
-# 对应依赖 package.json requirements.txtq
-use_cloudscraper=true
-use_selenium=true
+# 对应依赖 package.json requirements.txt
 use_puppeteer=true
+# 似乎无法通过
+use_cloudscraper=false
+# 建议使用puppeteer
+use_selenium=false
+
 
 function extraKeys() {
     [ -e decodeObfuscator ] || git clone https://github.com/Xwite/decodeObfuscator --depth 1
