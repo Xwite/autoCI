@@ -41,7 +41,7 @@ jobs:
         run: mv coco_keys.json ./autoBuild
 
       - name: push changes
-        uses: stefanzweifel/git-auto-commit-action@v4.14.1
+        uses: stefanzweifel/git-auto-commit-action@v4.15.1
         with:
           commit_message: 'update cocomanhua keys'
           branch: autoBuild
