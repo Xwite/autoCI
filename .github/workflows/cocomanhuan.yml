@@ -13,11 +13,6 @@ jobs:
         with:
           fetch-depth: 0
           ref: main
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-          ref: autoBuild
-          path: autoBuild
 
       - uses: actions/cache@v3
         with:
@@ -33,22 +28,25 @@ jobs:
         run: |
           npm install
           # pip install -r requirements.txt
+
       - name: extra keys
         run: |
           source $GITHUB_WORKSPACE/coco/coco.sh
           main
-      - name: move keys to ./autoBuild
-        run: mv coco_keys.json ./autoBuild
 
-      - name: push changes
-        uses: stefanzweifel/git-auto-commit-action@v4.15.1
-        with:
-          commit_message: 'update cocomanhua keys'
-          branch: autoBuild
-          repository: ./autoBuild
-          file_pattern: coco_keys.json
-          skip_checkout: false
-          create_branch: true
+      - name: push changes to test branch
+        run: |
+          mkdir test
+          mv coco_keys.json ./test
+          cd test
+          git init -b test
+          git add .
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "update cocomanhua keys at $(date "+%Y/%m/%d %H:%M")"
+          git remote add origin "https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
+          git push -f -u origin test
+
 
       - name: Delete workflow runs
         uses: Mattraks/delete-workflow-runs@v2
