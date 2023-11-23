@@ -2,27 +2,11 @@
 
 import undetected_chromedriver as uc
 from time import sleep
-from subprocess import getoutput
 import re, sys
-from selenium import webdriver
 from selenium.webdriver.common.by import By
 
 def saveContent(url, savePath):
-    # 获取chrome的主要版本号
-    version_str = getoutput('google-chrome --version')
-    #version_str="google chrome 100.0.13.77"
-    version_match = re.match( r'.*?(\d+).*', version_str)
-    global version_main
-    version_main = 99
-    try:
-        version_main = int(version_match.group(1))
-        print(f"chrome main version: {version_main}")
-    except:
-        print("fail to get chrome version ")
-    
-    options = webdriver.ChromeOptions()
-    options.add_argument('--headless')
-    driver = uc.Chrome(options=options, version_main=version_main)
+    driver = uc.Chrome(headless=True,use_subprocess=False)
     
     try:
         driver.get(url)
