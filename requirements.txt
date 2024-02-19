@@ -1,2 +1,2 @@
 cloudscraper==1.2.71
-undetected-chromedriver==3.5.4
+undetected-chromedriver==3.5.5
